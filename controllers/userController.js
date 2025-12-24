@@ -39,7 +39,6 @@ exports.postUser = async (req, res) => {
 
 // PUT: full update
 exports.putUser = async (req, res) => {
-  console.log("fgrvgb ");
   try {
     const { _id, ...updateData } = req.body;
 
@@ -49,15 +48,26 @@ exports.putUser = async (req, res) => {
       { new: true, runValidators: true }
     );
 
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
 
-    res.status(200).json({ success: true, data: user });
-    
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully (PUT)",
+      data: user,
+    });
+
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
-
 
 // PATCH: partial update
 exports.patchUsers = async (req, res) => {
@@ -87,3 +97,30 @@ exports.patchUsers = async (req, res) => {
     });
   }
 };
+
+// DELETE user
+exports.deleteUser = async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+      data: deletedUser,
+    });
+
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+ 
