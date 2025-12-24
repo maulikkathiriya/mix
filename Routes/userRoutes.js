@@ -14,6 +14,6 @@ router.put("/putuser/:id", putUser);  // 👈 This must be a valid function
 // PATCH (partial update)
 router.patch("/patchuser/:id", patchUsers);
 
-router.delete("/deleteusers/:id", deleteUser);
+router.delete("/deleteuser/:id", deleteUser);
 
 module.exports = router;
