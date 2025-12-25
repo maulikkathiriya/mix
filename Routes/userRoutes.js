@@ -1,22 +1,34 @@
 const express = require("express");
 const router = express.Router();
-const { putUser, patchUser, getUsers, postUser, deleteUser , getUser , addUsers} = require("../controllers/userController");
+const { 
+    putUser, 
+    patchUser, 
+    getUsers, 
+    postUser, 
+    deleteUser, 
+    getUser, 
+    addUsers 
+} = require("../controllers/userController");
 
 // GET all users
 router.get("/getusers", getUsers);
 
-// CREATE user
+// CREATE a single user
 router.post("/postuser", postUser);
 
-// PUT (full update)
-router.put("/putuser/:id", putUser);  // 👈 This must be a valid function
+// CREATE multiple users
+router.post("/addusers", addUsers);
 
-// PATCH (partial update)
+// GET a single user by ID
+router.get("/getuser/:id", getUser);
+
+// UPDATE full user (PUT)
+router.put("/putuser/:id", putUser);
+
+// UPDATE partial user (PATCH)
 router.patch("/patchuser/:id", patchUser);
 
+// DELETE a user
 router.delete("/deleteusers/:id", deleteUser);
-
-router.get("/getuser/:id",getUser);
-router.post("/addusers", addUsers);
 
 module.exports = router;

@@ -18,60 +18,56 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+// GET single user by ID
 exports.getUser = async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
 
-        const user = await User.findById(id);
-
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found"
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            data: user
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
-
-
+// ADD multiple users
 exports.addUsers = async (req, res) => {
-    try {
-        const user = req.body;
+  try {
+    const users = req.body; // expects an array of users
+    const addedUsers = await User.insertMany(users);
 
-        const addUser = await User.insertMany(user);
-
-        res.status(201).json({
-            success: true,
-            message: "User added successfully",
-            data: addUser
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
+    res.status(201).json({
+      success: true,
+      message: "Users added successfully",
+      data: addedUsers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
-
-
-
-// CREATE user
+// CREATE a single user
 exports.postUser = async (req, res) => {
   try {
     const newUser = new User(req.body);
     await newUser.save();
+
     res.status(201).json({
       success: true,
       message: "User created successfully",
@@ -91,13 +87,13 @@ exports.putUser = async (req, res) => {
   try {
     const { _id, ...updateData } = req.body;
 
-    const user = await User.findOneAndReplace(
+    const updatedUser = await User.findOneAndReplace(
       { _id: req.params.id },
       updateData,
       { new: true, runValidators: true }
     );
 
-    if (!user) {
+    if (!updatedUser) {
       return res.status(404).json({
         success: false,
         message: "User not found",
@@ -106,10 +102,9 @@ exports.putUser = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "User updated successfully (PUT)",
-      data: user,
+      message: "User fully updated (PUT)",
+      data: updatedUser,
     });
-
   } catch (err) {
     res.status(400).json({
       success: false,
@@ -119,7 +114,7 @@ exports.putUser = async (req, res) => {
 };
 
 // PATCH: partial update
-exports.patchUsers = async (req, res) => {
+exports.patchUser = async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -136,7 +131,7 @@ exports.patchUsers = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "User updated successfully (PATCH)",
+      message: "User partially updated (PATCH)",
       data: updatedUser,
     });
   } catch (err) {
@@ -147,7 +142,7 @@ exports.patchUsers = async (req, res) => {
   }
 };
 
-// DELETE user
+// DELETE a user
 exports.deleteUser = async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
@@ -164,7 +159,6 @@ exports.deleteUser = async (req, res) => {
       message: "User deleted successfully",
       data: deletedUser,
     });
-
   } catch (err) {
     res.status(400).json({
       success: false,
@@ -172,4 +166,3 @@ exports.deleteUser = async (req, res) => {
     });
   }
 };
- 
