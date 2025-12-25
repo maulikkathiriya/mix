@@ -18,6 +18,55 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+exports.getUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: user
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+
+
+exports.addUsers = async (req, res) => {
+    try {
+        const user = req.body;
+
+        const addUser = await User.insertMany(user);
+
+        res.status(201).json({
+            success: true,
+            message: "User added successfully",
+            data: addUser
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+
+
+
 // CREATE user
 exports.postUser = async (req, res) => {
   try {

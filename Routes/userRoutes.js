@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { putUser, patchUsers, getUsers, postUser, deleteUser } = require("../controllers/userController");
+const { putUser, patchUser, getUsers, postUser, deleteUser , getUser , addUsers} = require("../controllers/userController");
 
 // GET all users
 router.get("/getusers", getUsers);
@@ -12,8 +12,11 @@ router.post("/postuser", postUser);
 router.put("/putuser/:id", putUser);  // 👈 This must be a valid function
 
 // PATCH (partial update)
-router.patch("/patchuser/:id", patchUsers);
+router.patch("/patchuser/:id", patchUser);
 
 router.delete("/deleteusers/:id", deleteUser);
+
+router.get("/getuser/:id",getUser);
+router.post("/addusers", addUsers);
 
 module.exports = router;
