@@ -18,6 +18,50 @@ exports.getProducts = async (req, res) => {
   }
 };
 
+exports.getProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addProducts = async (req, res) => {
+  try {
+    const products = req.body; // expects an array of products
+    const addedProducts = await Product.insertMany(products);
+
+    res.status(201).json({
+      success: true,
+      message: "Products added successfully",
+      data: addedProducts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
 // CREATE a new product
 exports.postProduct = async (req, res) => {
   try {
@@ -41,7 +85,7 @@ exports.putProduct = async (req, res) => {
   try {
     const { _id, ...updateData } = req.body;
 
-    const  updatedProduct = await Product.findOneAndReplace(
+    const updatedProduct = await Product.findOneAndReplace(
       { _id: req.params.id },
       updateData,
       { new: true, runValidators: true }
