@@ -35,7 +35,7 @@ exports.getProduct = async (req, res) => {
       data: product,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(201).json({
       success: false,
       message: error.message,
     });
@@ -53,7 +53,7 @@ exports.addProducts = async (req, res) => {
       data: addedProducts,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(200).json({
       success: false,
       message: error.message,
     });
