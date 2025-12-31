@@ -10,22 +10,25 @@ const {
     addUsers 
 } = require("../controllers/userController");
 
+const validate = require("../Middleware/validate");
+const { addUserValidation } = require("../Validations/userValidation");
+
 // GET all users
 router.get("/getusers", getUsers);
 
-// CREATE a single user
-router.post("/postuser", postUser);
+// CREATE a single user with validation
+router.post("/postuser", validate(addUserValidation), postUser);
 
-// CREATE multiple users
-router.post("/addusers", addUsers);
+// CREATE multiple users with validation
+router.post("/addusers", validate(addUserValidation), addUsers);
 
 // GET a single user by ID
 router.get("/getuser/:id", getUser);
 
-// UPDATE full user (PUT)
-router.put("/putuser/:id", putUser);
+// UPDATE full user (PUT) with validation
+router.put("/putuser/:id", validate(addUserValidation), putUser);
 
-// UPDATE partial user (PATCH)
+// UPDATE partial user (PATCH) with validation
 router.patch("/patchuser/:id", patchUser);
 
 // DELETE a user
