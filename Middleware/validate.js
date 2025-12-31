@@ -9,7 +9,7 @@ const validate = (schema) => {
 
         if (error) {
             const errors = error.details.map((detail) => ({
-                field: detail.path[0],
+                field: detail.path("."),
                 message: detail.message
             }));
 

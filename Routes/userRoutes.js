@@ -1,32 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const { 
-    putUser, 
-    patchUser, 
-    getUsers, 
-    deleteUser, 
-    getUser, 
-    addUsers 
-} = require("../controllers/userController");
+const {   addUser,  patchUser,    getUsers,   deleteUser,   getUser, updateUser} = require("../controllers/userController");
 
-const validate = require("../Middleware/validate");
+const validate = require("../Middleware/validate"); // Correct import
 const { addUserValidation } = require("../Validations/userValidation");
 
 // GET all users
 router.get("/getusers", getUsers);
 
 // CREATE a single user with validation
-
-// CREATE multiple users with validation
-router.post("/addusers", validate(addUserValidation), addUsers);
+router.post("/adduser", validate(addUserValidation), addUser);
 
 // GET a single user by ID
 router.get("/getuser/:id", getUser);
 
 // UPDATE full user (PUT) with validation
-router.put("/putuser/:id", validate(addUserValidation), putUser);
+router.put("/updateuser/:id", validate(addUserValidation), updateUser);
 
-// UPDATE partial user (PATCH) with validation
+// UPDATE partial user (PATCH)
 router.patch("/patchuser/:id", patchUser);
 
 // DELETE a user
