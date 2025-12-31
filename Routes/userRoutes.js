@@ -4,7 +4,6 @@ const {
     putUser, 
     patchUser, 
     getUsers, 
-    postUser, 
     deleteUser, 
     getUser, 
     addUsers 
@@ -17,7 +16,6 @@ const { addUserValidation } = require("../Validations/userValidation");
 router.get("/getusers", getUsers);
 
 // CREATE a single user with validation
-router.post("/postuser", validate(addUserValidation), postUser);
 
 // CREATE multiple users with validation
 router.post("/addusers", validate(addUserValidation), addUsers);
