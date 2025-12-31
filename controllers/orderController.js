@@ -17,6 +17,41 @@ exports.getOrders = async (req, res) => {
   }
 };
 
+exports.getOrder = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Order fetched successfully', data: order });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+exports.deleteOrder = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+
+    const order = await Order.findByIdAndDelete(orderId);
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Order deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+
+};
+
+
+
 
 // CREATE a new order
 exports.postOrder = async (req, res) => {
