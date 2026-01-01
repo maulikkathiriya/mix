@@ -1,33 +1,34 @@
 const express = require("express");
 const router = express.Router();
-const { 
-    addUser, 
-    patchUser, 
-    getUsers, 
-    deleteUser, 
-    getUser, 
-    updateUser 
+
+const {
+  postUser,
+  getUser,
+  getUsers,
+//   updateUser,
+  patchUser,
+  deleteUser
 } = require("../controllers/userController");
 
-const validate = require("../Middleware/validate");
-const { addUserValidation, updateUserValidation, idValidation } = require("../Validations/userValidation");
+const { validate } = require("../Middlewares/validate");
+const { addUserValidation } = require("../Validations/userValidation");
 
 // GET all users
 router.get("/getusers", getUsers);
 
-// CREATE a single user with validation
-router.post("/adduser", validate(addUserValidation), addUser);
+// CREATE user
+router.post("/adduser", validate(addUserValidation), postUser);
 
-// GET a single user by ID with ID validation
-router.get("/getuser/:id", validate(idValidation, "params"), getUser);
+// GET single user
+router.get("/getuser/:id", getUser);
 
-// UPDATE full user (PUT) with validation
-router.put("/updateuser/:id", validate(updateUserValidation), updateUser);
+// UPDATE user (PUT)
+// router.put("/updateuser/:id", updateUser);
 
-// UPDATE partial user (PATCH)
+// PATCH user
 router.patch("/patchuser/:id", patchUser);
 
-// DELETE a user with ID validation
-router.delete("/deleteusers/:id", validate(idValidation, "params"), deleteUser);
+// DELETE user
+router.delete("/deleteuser/:id", deleteUser);
 
 module.exports = router;

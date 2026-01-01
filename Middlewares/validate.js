@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const validate = (schema) => {
+    
     return (req, res, next) => {
         const { error, value } = schema.validate(req.body, {
             abortEarly: false,
@@ -24,4 +25,4 @@ const validate = (schema) => {
     };
 };
 
-module.exports = validate;
+module.exports = {validate};

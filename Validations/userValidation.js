@@ -53,43 +53,60 @@ const addUserValidation = Joi.object({
 
 // Validation schema for updating a user (PUT/PATCH)
 // All fields optional, but if present must follow same rules
-const updateUserValidation = Joi.object({
-    name: Joi.string()
-        .min(3)
-        .max(30)
-        .trim()
-        .messages({
-            "string.min": "Name must be at least 3 characters long",
-            "string.max": "Name must be less than or equal to 30 characters"
-        }),
+// const updateUserValidation = Joi.object({
+//     name: Joi.string()
+//         .min(3)
+//         .max(30)
+//         .trim()
+//         .messages({
+//             "string.min": "Name must be at least 3 characters long",
+//             "string.max": "Name must be less than or equal to 30 characters"
+//         }),
 
-    email: Joi.string()
-        .email()
-        .lowercase()
-        .trim()
-        .messages({
-            "string.email": "Please enter a valid email address"
-        }),
+//     email: Joi.string()
+//         .email()
+//         .lowercase()
+//         .trim()
+//         .messages({
+//             "string.email": "Please enter a valid email address"
+//         }),
 
-    age: Joi.number()
-        .integer()
-        .min(5)
-        .max(77)
-        .messages({
-            "number.base": "Age must be a number",
-            "number.integer": "Age must be an integer",
-            "number.min": "Age must be at least 5",
-            "number.max": "Age must be less than or equal to 77"
-        }),
+//     age: Joi.number()
+//         .integer()
+//         .min(5)
+//         .max(77)
+//         .messages({
+//             "number.base": "Age must be a number",
+//             "number.integer": "Age must be an integer",
+//             "number.min": "Age must be at least 5",
+//             "number.max": "Age must be less than or equal to 77"
+//         }),
 
-    password: Joi.string()
-        .min(6)
-        .max(20)
-        .trim()
-        .messages({
-            "string.min": "Password must be at least 6 characters long",
-            "string.max": "Password must be less than or equal to 20 characters"
-        })
-}).min(1); // Require at least one field for PATCH
+//     password: Joi.string()
+//         .min(6)
+//         .max(20)
+//         .trim()
+//         .messages({
+//             "string.min": "Password must be at least 6 characters long",
+//             "string.max": "Password must be less than or equal to 20 characters"
+//         })
+// }).min(1); // Require at least one field for PATCH/PUT
 
-module.exports =  addUserValidation;
+// Validation schema for ID in params (assuming MongoDB ObjectId)
+// const idValidation = Joi.object({
+//     id: Joi.string()
+//         .alphanum()
+//         .length(24)
+//         .required()
+//         .messages({
+//             "string.length": "ID must be 24 characters long",
+//             "string.alphanum": "ID must contain only letters and numbers",
+//             "any.required": "ID is required"
+//         })
+// });
+
+module.exports = {
+    addUserValidation
+    // updateUserValidation,
+    // idValidation
+};
