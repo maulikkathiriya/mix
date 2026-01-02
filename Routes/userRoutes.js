@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  postUser,
+  addUser,
+  // postUser,
   getUser,
   getUsers,
 //   updateUser,
@@ -17,7 +18,9 @@ const { addUserValidation } = require("../Validations/userValidation");
 router.get("/getusers", getUsers);
 
 // CREATE user
-router.post("/adduser", validate(addUserValidation), postUser);
+// router.post("/adduser", validate(addUserValidation), postUser);
+
+router.post("/adduser", validate(addUserValidation), addUser);
 
 // GET single user
 router.get("/getuser/:id", getUser);

@@ -11,15 +11,16 @@ const UserSchema = new mongoose.Schema({
         required:true,
         unique:true
     },
+    age:{
+        type:Number,
+        required:true
+    },
+
     password:{
         type:String,
         required:true
     },
-    isAdmin:{
-        type:Boolean,
-        required:true,
-        default:false
-    }
+    
 });
 
 module.exports = mongoose.model("User",UserSchema);

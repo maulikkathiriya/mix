@@ -1,3 +1,5 @@
+
+const bcrypt = require("bcrypt");
 const User = require("../models/User");
 
 // GET all users
@@ -44,15 +46,51 @@ exports.getUser = async (req, res) => {
 };
 
 // ADD multiple users
-exports.addUsers = async (req, res) => {
+// exports.addUsers = async (req, res) => {
+//   try {
+//     const users = req.body; // expects an array of users
+//     const addedUsers = await User.insertMany(users);
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Users added successfully",
+//       data: addedUsers,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+
+exports.addUser = async (req, res) => {
   try {
-    const users = req.body; // expects an array of users
-    const addedUsers = await User.insertMany(users);
+    const { password } = req.body;
+
+    // Check password
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: "Password is required",
+      });
+    }
+
+    // console.log("Before hash:", req.body);
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    req.body.password = hashedPassword;
+
+    // console.log("After hash:", req.body);
+
+    // Save user to database
+    const user = await User.create(req.body);
 
     res.status(201).json({
       success: true,
-      message: "Users added successfully",
-      data: addedUsers,
+      message: "User added successfully",
+      data: user,
     });
   } catch (error) {
     res.status(500).json({
@@ -61,6 +99,11 @@ exports.addUsers = async (req, res) => {
     });
   }
 };
+
+
+
+
+
 
 // CREATE a single user
 exports.postUser = async (req, res) => {
