@@ -11,7 +11,7 @@ const {
   deleteUser
 } = require("../controllers/userController");
 
-const { validate } = require("../Middlewares/validate");
+const validate  = require("../Middlewares/validate");
 const { addUserValidation } = require("../Validations/userValidation");
 
 // GET all users

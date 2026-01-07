@@ -99,13 +99,8 @@ exports.addUser = async (req, res) => {
     });
   }
 };
-
-
-
-
-
-
-// CREATE a single user
+  
+// CREATE a single user 
 exports.postUser = async (req, res) => {
   try {
     const newUser = new User(req.body);
